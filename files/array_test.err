@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<CPDEV version="1.0">
+  <COMPILATION>
+    <INPUT>
+      <PARAMETER no="0">--lcf</PARAMETER>
+      <PARAMETER no="1">D:\Studia\MGR\Praca Magisterska\kompilator_repo\stcomp05\CompileAndRunTests\files\VMxmls\VM-Gen.xml</PARAMETER>
+      <PARAMETER no="2">--dcp</PARAMETER>
+      <PARAMETER no="3">D:\Studia\MGR\Praca Magisterska\kompilator_repo\stcomp05\CompileAndRunTests\files\array_test.dcp</PARAMETER>
+      <PARAMETER no="4">--out</PARAMETER>
+      <PARAMETER no="5">D:\Studia\MGR\Praca Magisterska\kompilator_repo\stcomp05\CompileAndRunTests\files\array_test.xcp</PARAMETER>
+      <PARAMETER no="6">--cf</PARAMETER>
+      <PARAMETER no="7">2531</PARAMETER>
+      <PARAMETER no="8">--sf</PARAMETER>
+      <PARAMETER no="9">B0</PARAMETER>
+      <PARAMETER no="10">--lof</PARAMETER>
+      <PARAMETER no="11">1</PARAMETER>
+      <PARAMETER no="12">--opt</PARAMETER>
+      <PARAMETER no="13">5</PARAMETER>
+      <PARAMETER no="14">--xml-errors</PARAMETER>
+      <PARAMETER no="15">D:\Studia\MGR\Praca Magisterska\kompilator_repo\stcomp05\CompileAndRunTests\files\array_test.err</PARAMETER>
+      <PARAMETER no="16">--dcp-output</PARAMETER>
+      <PARAMETER no="17">C</PARAMETER>
+      <PARAMETER no="18">--</PARAMETER>
+      <PARAMETER no="19">D:\Studia\MGR\Praca Magisterska\kompilator_repo\stcomp05\CompileAndRunTests\files\array_test.cst</PARAMETER>
+    </INPUT>
+    <MESSAGES>
+      <WARNING pos="30">Zmienna globalna "START_STOP.WYNIK2" ma niewłaściwy modyfikator "%0012" dla jej typu "$DEFAULT.INT"</WARNING>
+    </MESSAGES>
+  </COMPILATION>
+</CPDEV>

@@ -1,0 +1,110 @@
+ImageRuntimeVersion: v4.0.30319
+Assembly VMClass32, Version=1.0.*, Culture=Invariant Language (Invariant Country): 
+	hash=SHA1, flags=PublicKey
+Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly CPDev.Public, Version=0.9.*, Culture=Invariant Language (Invariant Country): 
+	hash=None, flags=None
+Assembly CPSimulation, Version=1.0.*, Culture=Invariant Language (Invariant Country): 
+	hash=None, flags=None
+Assembly System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Class VMClass.InitNativeBlocksEvent: AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit
+  :System.MulticastDelegate
+    Void .ctor(System.Object, IntPtr): PrivateScope, Public, SpecialName, RTSpecialName
+  Methods:
+    Invoke(): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+    BeginInvoke(AsyncCallback, Object): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+    EndInvoke(IAsyncResult): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+Interface VMClass.ICPNativeBlocks: AutoLayout, AnsiClass, Class, Public, ClassSemanticsMask, Abstract, BeforeFieldInit
+  Methods:
+    InitNativeBlock(UInt16, UInt16): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, Abstract
+    ExecNativeBlock(UInt16, UInt16, Byte*, Byte*): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, Abstract
+    InitNativeBlocks(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, Abstract
+    DestroyNativeBlocks(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, Abstract
+Class VMClass.VMachine: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Interfaces:
+    CPSimulation.ICPVMachine
+  Events:
+    CPDev.Public.ExceptionEvent ExceptionReached: SpecialName
+    CPDev.Public.FInitEvent FInitReached: SpecialName
+    CPDev.Public.PreCommandEvent PreCommandReached: SpecialName
+    CPDev.Public.CycleEndEvent CycleEndReached: SpecialName
+    CPDev.Public.CycleStartEvent CycleStartReached: SpecialName
+    CPDev.Public.CodeErrorEvent CodeErrorReached: SpecialName
+    CPDev.Public.BreakpointEvent BreakpointReached: SpecialName
+  Methods:
+    LoadProgram(String, Int32, String): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    LoadProgram(String, Int32): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    Run(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    Run(UInt16): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    Stop(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetData(Byte[], UInt32, UInt32): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetData(UInt32, Byte, Byte*): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    SetData(Byte[], UInt32, UInt32, UInt32): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    SetData(UInt32, Byte, Byte*): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetDataByte(UInt32): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    SetDataByte(UInt32, Byte): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetDataWord(UInt32): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    SetDataWord(UInt32, UInt16): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetDataDWord(UInt32): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    SetDataDWord(UInt32, UInt32): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetDataLWord(UInt32): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    SetDataLWord(UInt32, UInt64): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetDataReal(UInt32): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    SetDataReal(UInt32, Single): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetDataLReal(UInt32): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    SetDataLReal(UInt32, Double): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    Pause(Boolean(HasFieldMarshal)): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    IsPaused(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetCycles(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetStatus1(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetSystemClock(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetProgramCRC(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetDataOffset(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetTaskDuration(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetTaskCycle(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    SetTaskCycle(UInt32, Int32): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetCycleStart(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    SetCycleStart(UInt32): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    SetBreakpoint(UInt32): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    IgnoreBreakpoints(Boolean(HasFieldMarshal)): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    Breakpoint(UInt32, UInt16): PrivateScope, Public, HideBySig
+    CodeError(String): PrivateScope, Public, HideBySig
+    CycleStart(): PrivateScope, Public, HideBySig
+    CycleEnd(): PrivateScope, Public, HideBySig
+    PreCommand(UInt32, UInt16): PrivateScope, Public, HideBySig
+    FInit(): PrivateScope, Public, HideBySig
+    Exception(VMExceptionHandler): PrivateScope, Public, HideBySig
+    add_BreakpointReached(BreakpointEvent): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    remove_BreakpointReached(BreakpointEvent): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    add_CodeErrorReached(CodeErrorEvent): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    remove_CodeErrorReached(CodeErrorEvent): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    add_CycleStartReached(CycleStartEvent): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    remove_CycleStartReached(CycleStartEvent): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    add_CycleEndReached(CycleEndEvent): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    remove_CycleEndReached(CycleEndEvent): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    add_PreCommandReached(PreCommandEvent): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    remove_PreCommandReached(PreCommandEvent): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    add_FInitReached(FInitEvent): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    remove_FInitReached(FInitEvent): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    add_ExceptionReached(ExceptionEvent): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    remove_ExceptionReached(ExceptionEvent): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    SaveState(XmlWriter): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    RestoreState(XPathNavigator): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    ResetState(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetProgramSize(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetDataSize(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetFlashSize(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    ShrinkTime(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    ShrinkTime(Boolean(HasFieldMarshal)): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetExecutingIP(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetStackContent(StackTypes): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetStackPointer(StackTypes): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    UpdateProgram(String, UInt32, UInt32): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    GetExecutingLine(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask

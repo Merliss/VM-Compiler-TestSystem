@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<CPDEV version="1.0">
+  <TARGET AddressSize="4" Alignment="0" RawCompilerVersion="0004140d" StringCompilerVersion="0.4.20.13" srcChecksum="" CF="00002531" SF="000000b0" OP="00000005" LF="00000001" DC="0000000c">
+    <GLOBAL>
+      <VAR LName="START" PName="START_STOP.START" Addr="0000" AdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" VarFlags="00004008" TypeCRC="D275EFCD" />
+      <VAR LName="STOP" PName="START_STOP.STOP" Addr="0001" AdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" VarFlags="00004008" TypeCRC="D275EFCD" />
+      <VAR LName="ALARM" PName="START_STOP.ALARM" Addr="0002" AdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" VarFlags="00004008" TypeCRC="D275EFCD" />
+      <VAR LName="SILNIK" PName="START_STOP.SILNIK" Addr="0008" AdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" VarFlags="00004008" TypeCRC="D275EFCD" />
+      <VAR LName="POMPA" PName="START_STOP.POMPA" Addr="0009" AdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" VarFlags="00004008" TypeCRC="D275EFCD" />
+      <VAR LName="WYNIK" PName="START_STOP.WYNIK" Addr="000a" AdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" VarFlags="00004008" TypeCRC="D275EFCD" InitValue="TRUE" />
+      <VAR LName="WYNIK2" PName="START_STOP.WYNIK2" Addr="000c" AdrType="gdlabel" Size="2" Type="INT" PType="$DEFAULT.INT" VarFlags="00004008" TypeCRC="DC550720" InitValue="20" />
+    </GLOBAL>
+    <VMACH>
+      <FILE_LOC>D:\Studia\MGR\Praca Magisterska\kompilator_repo\stcomp05\CompileAndRunTests\files\VMxmls\VM-Gen.xml</FILE_LOC>
+    </VMACH>
+    <TASKS>
+      <TASK LName="Task0001" PName="START_STOP.Task0001" LoopType="0" Cycle="200" CycleUnit="ms" BodyCodeAddres="0031" TaskFlags="00000000" />
+    </TASKS>
+    <MEMORY_MAP Type="code" FInit="0">
+      <file LoadAddr="0" Size="438">start_stop_two.xcp</file>
+      <file_FullName>D:\Studia\MGR\Praca Magisterska\kompilator_repo\stcomp05\CompileAndRunTests\files\start_stop_two.xcp</file_FullName>
+      <CRC mode="1" AlgName="Generic" Value="" Status="ERROR" Message="System.IO.FileNotFoundException" />
+    </MEMORY_MAP>
+    <MEMORY_MAP Type="data">
+      <file LoadAddr="0" Size="60">#dummy</file>
+    </MEMORY_MAP>
+    <MNEMONIC_MAP Type="code">
+:0000| 1C15 0000 01 00                   | $VMSYS.MCD START, #01, #00                                                      
+:0006| 1C15 0100 01 00                   | $VMSYS.MCD STOP, #01, #00                                                       
+:000c| 1C15 0200 01 00                   | $VMSYS.MCD ALARM, #01, #00                                                      
+:0012| 1C15 0800 01 00                   | $VMSYS.MCD SILNIK, #01, #00                                                     
+:0018| 1C15 0900 01 00                   | $VMSYS.MCD POMPA, #01, #00                                                      
+:001e| 1C15 0A00 01 01                   | $VMSYS.MCD WYNIK, #01, #01                                                      
+:0024| 1C15 0C00 02 1400                 | $VMSYS.MCD WYNIK2, #02, #1400                                                   
+:002b|                                   | :?START_STOP.Task0001?TSKSTR                                                    
+:002b| 1C16 0000 1501                    | $VMSYS.CALB #0000, :?START_STOP.STARTSTOP?INIT                                  
+:0031|                                   | :?START_STOP.Task0001?TSKLOOP                                                   
+:0031| 1C16 0000 2A01                    | $VMSYS.CALB #0000, :?START_STOP.STARTSTOP?CODE                                  
+:0037| 1C1D 3100                         | $VMSYS.TRML :?START_STOP.Task0001?TSKLOOP                                       
+:003b|                                   | :?START_STOP.TON?INIT                                                           
+:003b| 1C15 0000 04 00000000             | $VMSYS.MCD STIME, #04, #00000000                                                
+:0044| 1C15 0500 01 00                   | $VMSYS.MCD Q, #01, #00                                                          
+:004a| 1C15 0C00 04 00000000             | $VMSYS.MCD ET, #04, #00000000                                                   
+:0053| 1C13                              | $VMSYS.RETURN                                                                   
+:0055|                                   | :?START_STOP.TON?CODE                                                           
+;;;;;|                                   | {B:1!46!1529}                                                                   
+;!!!!|                                   |                 ■IF NOT IN THEN(* Je?li wej?cie nieaktywne*)                    
+;!!!!|                                   |                     ■Q := FALSE;                  (* Zeruj wyj?cie             …
+;!!!!|                                   |          *)                                                                     
+:0055| 0510 0600 0400                    | $DEFAULT.NOT ?IF?CTL, IN                                                        
+:005b| 1C02 0600 7800                    | $VMSYS.JZ ?IF?CTL, :?START_STOP.TONIF?B0000                                     
+;;;;;|                                   | {E:1!47!1594}                                                                   
+;;;;;|                                   | {B:65537!47!1594}                                                               
+;;;;;|                                   | {B:3!47!1594}                                                                   
+;!!!!|                                   |                     ■Q := FALSE■;                  (* Zeruj wyj?cie            …
+;!!!!|                                   |           *)                                                                    
+:0061| 1C15 0500 01 00                   | $VMSYS.MCD Q, #01, #00                                                          
+;;;;;|                                   | {E:3!47!1604}                                                                   
+;;;;;|                                   | {B:3!48!1685}                                                                   
+;!!!!|                                   |                     ■ET := t#0ms■;                 (* Zeruj licznik odmierzaneg…
+;!!!!|                                   | o czasu   *)                                                                    
+:0067| 1C15 0C00 04 00000000             | $VMSYS.MCD ET, #04, #00000000                                                   
+;;;;;|                                   | {E:3!48!1696}                                                                   
+;;;;;|                                   | {B:3!49!1776}                                                                   
+;!!!!|                                   |                     ■STIME := CUR_TIME()■; (* Odczytaj zegar systemowy*)        
+:0070| 1C17 0000                         | $DEFAULT.CUR_TIME STIME                                                         
+;;;;;|                                   | {E:3!49!1795}                                                                   
+;;;;;|                                   | {E:65537!50!1844}                                                               
+:0074| 1C00 AC00                         | $VMSYS.JMP :?START_STOP.TONIF?E0006                                             
+:0078|                                   | :?START_STOP.TONIF?B0000                                                        
+;;;;;|                                   | {B:131073!51!1870}                                                              
+;;;;;|                                   | {B:1!51!1870}                                                                   
+;!!!!|                                   |                     ■IF NOT Q THEN(* Dop?ki nie uaktywniono wyj?cia     *)      
+;!!!!|                                   |                         ■ET := CUR_TIME() - STIME;(* Czas od uaktywnienia wej?c…
+;!!!!|                                   | ia       *)                                                                     
+:0078| 0510 0600 0500                    | $DEFAULT.NOT ?IF?CTL, Q                                                         
+:007e| 1C02 0600 AC00                    | $VMSYS.JZ ?IF?CTL, :?START_STOP.TONIF?B0007                                     
+;;;;;|                                   | {E:1!52!1949}                                                                   
+;;;;;|                                   | {B:65537!52!1949}                                                               
+;;;;;|                                   | {B:3!52!1949}                                                                   
+;!!!!|                                   |                         ■ET := CUR_TIME() - STIME■;(* Czas od uaktywnienia wej?…
+;!!!!|                                   | cia       *)                                                                    
+:0084| 1C17 1000                         | $DEFAULT.CUR_TIME ?F?CUR_TIME000A                                               
+:0088| 020B 0C00 1000 0000               | $DEFAULT.SUB ET, ?F?CUR_TIME000A, STIME                                         
+;;;;;|                                   | {E:3!52!1973}                                                                   
+;;;;;|                                   | {B:1!53!2040}                                                                   
+;!!!!|                                   |                         ■IF ET &gt;= PT THEN(* Je?li up?yn?? zadany czas          …
+;!!!!|                                   | *)                                                                              
+;!!!!|                                   |                             ■Q := TRUE;           (* Uaktywnij wyj?cie         …
+;!!!!|                                   |          *)                                                                     
+:0090| 110B 0600 0C00 0800               | $DEFAULT.GE ?IF?CTL, ET, PT                                                     
+:0098| 1C02 0600 AC00                    | $VMSYS.JZ ?IF?CTL, :?START_STOP.TONIF?B000C                                     
+;;;;;|                                   | {E:1!54!2126}                                                                   
+;;;;;|                                   | {B:65537!54!2126}                                                               
+;;;;;|                                   | {B:3!54!2126}                                                                   
+;!!!!|                                   |                             ■Q := TRUE■;           (* Uaktywnij wyj?cie        …
+;!!!!|                                   |           *)                                                                    
+:009e| 1C15 0500 01 01                   | $VMSYS.MCD Q, #01, #01                                                          
+;;;;;|                                   | {E:3!54!2135}                                                                   
+;;;;;|                                   | {B:3!55!2217}                                                                   
+;!!!!|                                   |                             ■ET := PT■;            (* Zadany czas op?nienia*)   
+:00a4| 1C1F 0C00 0800 0400               | $VMSYS.MEMCP ET, PT, #0400                                                      
+;;;;;|                                   | {E:3!55!2225}                                                                   
+;;;;;|                                   | {E:65537!56!2290}                                                               
+:00ac|                                   | :?START_STOP.TONIF?B000C                                                        
+;;;;;|                                   | {E:65537!57!2318}                                                               
+:00ac|                                   | :?START_STOP.TONIF?B0007                                                        
+;;;;;|                                   | {E:131073!58!2342}                                                              
+:00ac|                                   | :?START_STOP.TONIF?E0006                                                        
+:00ac| 1C13                              | $VMSYS.RETURN                                                                   
+:00ae|                                   | :?START_STOP.TOF?INIT                                                           
+:00ae| 1C15 0000 04 00000000             | $VMSYS.MCD STIME, #04, #00000000                                                
+:00b7| 1C15 0500 01 00                   | $VMSYS.MCD Q, #01, #00                                                          
+:00bd| 1C15 0C00 04 00000000             | $VMSYS.MCD ET, #04, #00000000                                                   
+:00c6| 1C13                              | $VMSYS.RETURN                                                                   
+:00c8|                                   | :?START_STOP.TOF?CODE                                                           
+;;;;;|                                   | {B:1!75!3135}                                                                   
+;!!!!|                                   |                 ■IF IN THEN(* Je?li wej?cie aktywne*)                           
+;!!!!|                                   |                     ■Q := TRUE;                   (* Uaktywnij wyj?cie         …
+;!!!!|                                   |          *)                                                                     
+:00c8| 1C02 0400 E500                    | $VMSYS.JZ IN, :?START_STOP.TOFIF?B0011                                          
+;;;;;|                                   | {E:1!76!3193}                                                                   
+;;;;;|                                   | {B:65537!76!3193}                                                               
+;;;;;|                                   | {B:3!76!3193}                                                                   
+;!!!!|                                   |                     ■Q := TRUE■;                   (* Uaktywnij wyj?cie        …
+;!!!!|                                   |           *)                                                                    
+:00ce| 1C15 0500 01 01                   | $VMSYS.MCD Q, #01, #01                                                          
+;;;;;|                                   | {E:3!76!3202}                                                                   
+;;;;;|                                   | {B:3!77!3284}                                                                   
+;!!!!|                                   |                     ■ET := t#0ms■;                 (* Zeruj licznik odmierzaneg…
+;!!!!|                                   | o czasu   *)                                                                    
+:00d4| 1C15 0C00 04 00000000             | $VMSYS.MCD ET, #04, #00000000                                                   
+;;;;;|                                   | {E:3!77!3295}                                                                   
+;;;;;|                                   | {B:3!78!3375}                                                                   
+;!!!!|                                   |                     ■STIME := CUR_TIME()■; (* Odczytaj zegar systemowy*)        
+:00dd| 1C17 0000                         | $DEFAULT.CUR_TIME STIME                                                         
+;;;;;|                                   | {E:3!78!3394}                                                                   
+;;;;;|                                   | {E:65537!79!3443}                                                               
+:00e1| 1C00 1301                         | $VMSYS.JMP :?START_STOP.TOFIF?E0016                                             
+:00e5|                                   | :?START_STOP.TOFIF?B0011                                                        
+;;;;;|                                   | {B:131073!80!3469}                                                              
+;;;;;|                                   | {B:1!80!3469}                                                                   
+;!!!!|                                   |                     ■IF Q THEN(* Dop?ki aktywne wyj?cie*)                       
+;!!!!|                                   |                         ■ET := CUR_TIME() - STIME;(* Odmierzaj zadany czas*)    
+:00e5| 1C02 0500 1301                    | $VMSYS.JZ Q, :?START_STOP.TOFIF?B0018                                           
+;;;;;|                                   | {E:1!81!3531}                                                                   
+;;;;;|                                   | {B:65537!81!3531}                                                               
+;;;;;|                                   | {B:3!81!3531}                                                                   
+;!!!!|                                   |                         ■ET := CUR_TIME() - STIME■;(* Odmierzaj zadany czas*)   
+:00eb| 1C17 1000                         | $DEFAULT.CUR_TIME ?F?CUR_TIME001A                                               
+:00ef| 020B 0C00 1000 0000               | $DEFAULT.SUB ET, ?F?CUR_TIME001A, STIME                                         
+;;;;;|                                   | {E:3!81!3555}                                                                   
+;;;;;|                                   | {B:1!82!3608}                                                                   
+;!!!!|                                   |                         ■IF ET &gt;= PT THEN(* Je?li up?yn?? zadany czas          …
+;!!!!|                                   | *)                                                                              
+;!!!!|                                   |                             ■Q := FALSE;          (* Zeruj wyj?cie             …
+;!!!!|                                   |          *)                                                                     
+:00f7| 110B 0600 0C00 0800               | $DEFAULT.GE ?IF?CTL, ET, PT                                                     
+:00ff| 1C02 0600 1301                    | $VMSYS.JZ ?IF?CTL, :?START_STOP.TOFIF?B001C                                     
+;;;;;|                                   | {E:1!83!3694}                                                                   
+;;;;;|                                   | {B:65537!83!3694}                                                               
+;;;;;|                                   | {B:3!83!3694}                                                                   
+;!!!!|                                   |                             ■Q := FALSE■;          (* Zeruj wyj?cie            …
+;!!!!|                                   |           *)                                                                    
+:0105| 1C15 0500 01 00                   | $VMSYS.MCD Q, #01, #00                                                          
+;;;;;|                                   | {E:3!83!3704}                                                                   
+;;;;;|                                   | {B:3!84!3785}                                                                   
+;!!!!|                                   |                             ■ET := PT■;            (* Pami?taj zadany czas op?n…
+;!!!!|                                   | ienia    *)                                                                     
+:010b| 1C1F 0C00 0800 0400               | $VMSYS.MEMCP ET, PT, #0400                                                      
+;;;;;|                                   | {E:3!84!3793}                                                                   
+;;;;;|                                   | {E:65537!85!3871}                                                               
+:0113|                                   | :?START_STOP.TOFIF?B001C                                                        
+;;;;;|                                   | {E:65537!86!3899}                                                               
+:0113|                                   | :?START_STOP.TOFIF?B0018                                                        
+;;;;;|                                   | {E:131073!87!3923}                                                              
+:0113|                                   | :?START_STOP.TOFIF?E0016                                                        
+:0113| 1C13                              | $VMSYS.RETURN                                                                   
+:0115|                                   | :?START_STOP.STARTSTOP?INIT                                                     
+:0115| 1C16 2800 AE00                    | $VMSYS.CALB OPOZN_OFF, :?START_STOP.TOF?INIT                                    
+:011b| 1C16 1000 3B00                    | $VMSYS.CALB OPOZN_ON, :?START_STOP.TON?INIT                                     
+:0121| 1C15 0E00 02 0A00                 | $VMSYS.MCD ?L?CST0030, #02, #0A00                                               
+:0128| 1C13                              | $VMSYS.RETURN                                                                   
+:012a|                                   | :?START_STOP.STARTSTOP?CODE                                                     
+;;;;;|                                   | {B:3!105!4564}                                                                  
+;!!!!|                                   |                         ■SILNIK := (START OR SILNIK) AND NOT STOP AND NOT ALARM…
+;!!!!|                                   | ■;                                                                              
+:012a| 0920 0300 0000 0800               | $DEFAULT.OR ?LR?ANDA0024, START, SILNIK                                         
+:0132| 1C02 0300 4E01                    | $VMSYS.JZ ?LR?ANDA0024, :?START_STOP.STARTSTOP?AND0023                          
+:0138| 0510 0400 0100                    | $DEFAULT.NOT ?LR?ANDA0026, STOP                                                 
+:013e| 1C02 0400 4E01                    | $VMSYS.JZ ?LR?ANDA0026, :?START_STOP.STARTSTOP?AND0023                          
+:0144| 1C15 0500 01 01                   | $VMSYS.MCD ?LR?ANDA0022, #01, #01                                               
+:014a| 1C00 5401                         | $VMSYS.JMP :?START_STOP.STARTSTOP?EAND0029                                      
+:014e|                                   | :?START_STOP.STARTSTOP?AND0023                                                  
+:014e| 1C15 0500 01 00                   | $VMSYS.MCD ?LR?ANDA0022, #01, #00                                               
+:0154|                                   | :?START_STOP.STARTSTOP?EAND0029                                                 
+:0154| 1C02 0500 7001                    | $VMSYS.JZ ?LR?ANDA0022, :?START_STOP.STARTSTOP?AND0021                          
+:015a| 0510 0600 0200                    | $DEFAULT.NOT ?LR?ANDA002A, ALARM                                                
+:0160| 1C02 0600 7001                    | $VMSYS.JZ ?LR?ANDA002A, :?START_STOP.STARTSTOP?AND0021                          
+:0166| 1C15 0800 01 01                   | $VMSYS.MCD SILNIK, #01, #01                                                     
+:016c| 1C00 7601                         | $VMSYS.JMP :?START_STOP.STARTSTOP?EAND002D                                      
+:0170|                                   | :?START_STOP.STARTSTOP?AND0021                                                  
+:0170| 1C15 0800 01 00                   | $VMSYS.MCD SILNIK, #01, #00                                                     
+:0176|                                   | :?START_STOP.STARTSTOP?EAND002D                                                 
+;;;;;|                                   | {E:3!105!4618}                                                                  
+;;;;;|                                   | {B:4!107!4647}                                                                  
+;!!!!|                                   |                         ■OPOZN_ON(IN:=SILNIK, PT:=t#5s)■;       (* Blok TON - o…
+;!!!!|                                   | p?nione za??czenie *)                                                           
+:0176| 1C1F 1400 0800 0100               | $VMSYS.MEMCP OPOZN_ON.IN, SILNIK, #0100                                         
+:017e| 1C15 1800 04 88130000             | $VMSYS.MCD OPOZN_ON.PT, #04, #88130000                                          
+:0187| 1C16 1000 5500                    | $VMSYS.CALB OPOZN_ON, :?START_STOP.TON?CODE                                     
+;;;;;|                                   | {E:4!107!4677}                                                                  
+;;;;;|                                   | {B:4!108!4739}                                                                  
+;!!!!|                                   |                 ■OPOZN_OFF(IN:= OPOZN_ON.Q, PT:=t#5s)■; (* Blok TOF - op?nione …
+;!!!!|                                   | wy??czenie *)                                                                   
+:018d| 1C1F 2C00 1500 0100               | $VMSYS.MEMCP OPOZN_OFF.IN, OPOZN_ON.Q, #0100                                    
+:0195| 1C15 3000 04 88130000             | $VMSYS.MCD OPOZN_OFF.PT, #04, #88130000                                         
+:019e| 1C16 2800 C800                    | $VMSYS.CALB OPOZN_OFF, :?START_STOP.TOF?CODE                                    
+;;;;;|                                   | {E:4!108!4775}                                                                  
+;;;;;|                                   | {B:3!109!4831}                                                                  
+;!!!!|                                   |                 ■POMPA := OPOZN_OFF.Q■; (* Stan za??czenia pompy*)              
+:01a4| 1C1F 0900 2D00 0100               | $VMSYS.MEMCP POMPA, OPOZN_OFF.Q, #0100                                          
+;;;;;|                                   | {E:3!109!4851}                                                                  
+;;;;;|                                   | {B:3!110!4897}                                                                  
+;!!!!|                                   |                 ■WYNIK2 := WYNIK2 * 10■;                                        
+:01ac| 0322 0C00 0C00 0E00               | $DEFAULT.MUL WYNIK2, WYNIK2, ?L?CST0030                                         
+;;;;;|                                   | {E:3!110!4918}                                                                  
+:01b4| 1C13                              | $VMSYS.RETURN                                                                   
+:01b6 
+</MNEMONIC_MAP>
+    <DATA_MAP>
+      <OBJ ObjType="VAR" LName="START" PName="START_STOP.START" Addr="0000" AdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" TypeStatus="build-in type" VFlags="00004008" TypeCRC="D275EFCD" />
+      <OBJ ObjType="VAR" LName="STOP" PName="START_STOP.STOP" Addr="0001" AdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" TypeStatus="build-in type" VFlags="00004008" TypeCRC="D275EFCD" />
+      <OBJ ObjType="VAR" LName="ALARM" PName="START_STOP.ALARM" Addr="0002" AdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" TypeStatus="build-in type" VFlags="00004008" TypeCRC="D275EFCD" />
+      <OBJ ObjType="VAR" LName="SILNIK" PName="START_STOP.SILNIK" Addr="0008" AdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" TypeStatus="build-in type" VFlags="00004008" TypeCRC="D275EFCD" />
+      <OBJ ObjType="VAR" LName="POMPA" PName="START_STOP.POMPA" Addr="0009" AdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" TypeStatus="build-in type" VFlags="00004008" TypeCRC="D275EFCD" />
+      <OBJ ObjType="VAR" LName="WYNIK" PName="START_STOP.WYNIK" Addr="000a" AdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" TypeStatus="build-in type" VFlags="00004008" TypeCRC="D275EFCD" InitValue="TRUE" />
+      <OBJ ObjType="VAR" LName="WYNIK2" PName="START_STOP.WYNIK2" Addr="000c" AdrType="gdlabel" Size="2" Type="INT" PType="$DEFAULT.INT" TypeStatus="build-in type" VFlags="00004008" TypeCRC="DC550720" InitValue="20" />
+      <OBJ ObjType="TASK" LName="Task0001" PName="START_STOP.Task0001" Addr="0000" AdrType="gdlabel" Size="53">
+        <OBJ ObjType="VAR" LName="STARTSTOP_01" PName="START_STOP.Task0001.STARTSTOP_01" Addr="0000" AdrType="rdlabel" CAddr="0000" CAdrType="gdlabel" Size="53" Type="STARTSTOP" PType="START_STOP.STARTSTOP" TypeStatus="program" VFlags="00000000" TypeCRC="0D83AAE0">
+          <OBJ ObjType="VAR" LName="OPOZN_ON" PName="START_STOP.Task0001.STARTSTOP_01.OPOZN_ON" Addr="0010" AdrType="rdlabel" CAddr="0010" CAdrType="gdlabel" Size="20" Type="TON" PType="START_STOP.TON" TypeStatus="function block" VFlags="00000000" TypeCRC="384233CA">
+            <OBJ ObjType="VAR" LName="STIME" PName="START_STOP.Task0001.STARTSTOP_01.OPOZN_ON.STIME" Addr="0000" AdrType="rdlabel" CAddr="0010" CAdrType="gdlabel" Size="4" Type="TIME" PType="$DEFAULT.TIME" TypeStatus="build-in type" VFlags="00000000" TypeCRC="C0025210" />
+            <OBJ ObjType="VAR" LName="IN" PName="START_STOP.Task0001.STARTSTOP_01.OPOZN_ON.IN" Addr="0004" AdrType="rdlabel" CAddr="0014" CAdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" TypeStatus="build-in type" VFlags="00000010" TypeCRC="D275EFCD" />
+            <OBJ ObjType="VAR" LName="PT" PName="START_STOP.Task0001.STARTSTOP_01.OPOZN_ON.PT" Addr="0008" AdrType="rdlabel" CAddr="0018" CAdrType="gdlabel" Size="4" Type="TIME" PType="$DEFAULT.TIME" TypeStatus="build-in type" VFlags="00000010" TypeCRC="C0025210" />
+            <OBJ ObjType="VAR" LName="Q" PName="START_STOP.Task0001.STARTSTOP_01.OPOZN_ON.Q" Addr="0005" AdrType="rdlabel" CAddr="0015" CAdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" TypeStatus="build-in type" VFlags="00000020" TypeCRC="D275EFCD" />
+            <OBJ ObjType="VAR" LName="ET" PName="START_STOP.Task0001.STARTSTOP_01.OPOZN_ON.ET" Addr="000c" AdrType="rdlabel" CAddr="001c" CAdrType="gdlabel" Size="4" Type="TIME" PType="$DEFAULT.TIME" TypeStatus="build-in type" VFlags="00000020" TypeCRC="C0025210" />
+            <OBJ ObjType="VAR" LName="?IF?CTL" PName="START_STOP.Task0001.STARTSTOP_01.OPOZN_ON.?IF?CTL" Addr="0006" AdrType="rdlabel" CAddr="0016" CAdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" TypeStatus="build-in type" VFlags="00000000" TypeCRC="D275EFCD" />
+            <OBJ ObjType="VAR" LName="?F?CUR_TIME000A" PName="START_STOP.Task0001.STARTSTOP_01.OPOZN_ON.?F?CUR_TIME000A" Addr="0010" AdrType="rdlabel" CAddr="0020" CAdrType="gdlabel" Size="4" Type="TIME" PType="$DEFAULT.TIME" TypeStatus="build-in type" VFlags="00200000" TypeCRC="C0025210" />
+          </OBJ>
+          <OBJ ObjType="VAR" LName="OPOZN_OFF" PName="START_STOP.Task0001.STARTSTOP_01.OPOZN_OFF" Addr="0028" AdrType="rdlabel" CAddr="0028" CAdrType="gdlabel" Size="20" Type="TOF" PType="START_STOP.TOF" TypeStatus="function block" VFlags="00000000" TypeCRC="401935A3">
+            <OBJ ObjType="VAR" LName="STIME" PName="START_STOP.Task0001.STARTSTOP_01.OPOZN_OFF.STIME" Addr="0000" AdrType="rdlabel" CAddr="0028" CAdrType="gdlabel" Size="4" Type="TIME" PType="$DEFAULT.TIME" TypeStatus="build-in type" VFlags="00000000" TypeCRC="C0025210" />
+            <OBJ ObjType="VAR" LName="IN" PName="START_STOP.Task0001.STARTSTOP_01.OPOZN_OFF.IN" Addr="0004" AdrType="rdlabel" CAddr="002c" CAdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" TypeStatus="build-in type" VFlags="00000010" TypeCRC="D275EFCD" />
+            <OBJ ObjType="VAR" LName="PT" PName="START_STOP.Task0001.STARTSTOP_01.OPOZN_OFF.PT" Addr="0008" AdrType="rdlabel" CAddr="0030" CAdrType="gdlabel" Size="4" Type="TIME" PType="$DEFAULT.TIME" TypeStatus="build-in type" VFlags="00000010" TypeCRC="C0025210" />
+            <OBJ ObjType="VAR" LName="Q" PName="START_STOP.Task0001.STARTSTOP_01.OPOZN_OFF.Q" Addr="0005" AdrType="rdlabel" CAddr="002d" CAdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" TypeStatus="build-in type" VFlags="00000020" TypeCRC="D275EFCD" />
+            <OBJ ObjType="VAR" LName="ET" PName="START_STOP.Task0001.STARTSTOP_01.OPOZN_OFF.ET" Addr="000c" AdrType="rdlabel" CAddr="0034" CAdrType="gdlabel" Size="4" Type="TIME" PType="$DEFAULT.TIME" TypeStatus="build-in type" VFlags="00000020" TypeCRC="C0025210" />
+            <OBJ ObjType="VAR" LName="?F?CUR_TIME001A" PName="START_STOP.Task0001.STARTSTOP_01.OPOZN_OFF.?F?CUR_TIME001A" Addr="0010" AdrType="rdlabel" CAddr="0038" CAdrType="gdlabel" Size="4" Type="TIME" PType="$DEFAULT.TIME" TypeStatus="build-in type" VFlags="00200000" TypeCRC="C0025210" />
+            <OBJ ObjType="VAR" LName="?IF?CTL" PName="START_STOP.Task0001.STARTSTOP_01.OPOZN_OFF.?IF?CTL" Addr="0006" AdrType="rdlabel" CAddr="002e" CAdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" TypeStatus="build-in type" VFlags="00000000" TypeCRC="D275EFCD" />
+          </OBJ>
+          <OBJ ObjType="VAR" LName="?LR?ANDA0024" PName="START_STOP.Task0001.STARTSTOP_01.?LR?ANDA0024" Addr="0003" AdrType="rdlabel" CAddr="0003" CAdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" TypeStatus="build-in type" VFlags="00200000" TypeCRC="D275EFCD" />
+          <OBJ ObjType="VAR" LName="?LR?ANDA0026" PName="START_STOP.Task0001.STARTSTOP_01.?LR?ANDA0026" Addr="0004" AdrType="rdlabel" CAddr="0004" CAdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" TypeStatus="build-in type" VFlags="00200000" TypeCRC="D275EFCD" />
+          <OBJ ObjType="VAR" LName="?LR?ANDA0022" PName="START_STOP.Task0001.STARTSTOP_01.?LR?ANDA0022" Addr="0005" AdrType="rdlabel" CAddr="0005" CAdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" TypeStatus="build-in type" VFlags="00200000" TypeCRC="D275EFCD" />
+          <OBJ ObjType="VAR" LName="?LR?ANDA002A" PName="START_STOP.Task0001.STARTSTOP_01.?LR?ANDA002A" Addr="0006" AdrType="rdlabel" CAddr="0006" CAdrType="gdlabel" Size="1" Type="BOOL" PType="$DEFAULT.BOOL" TypeStatus="build-in type" VFlags="00200000" TypeCRC="D275EFCD" />
+          <OBJ ObjType="VAR" LName="?L?CST0030" PName="START_STOP.Task0001.STARTSTOP_01.?L?CST0030" Addr="000e" AdrType="rdlabel" CAddr="000e" CAdrType="gdlabel" Size="2" Type="INT" PType="$DEFAULT.INT" TypeStatus="build-in type" VFlags="00100000" TypeCRC="DC550720" ConstValue="10" />
+        </OBJ>
+      </OBJ>
+    </DATA_MAP>
+    <ProjectGuid>00000000-0000-0000-0000-000000000000</ProjectGuid>
+  </TARGET>
+</CPDEV>

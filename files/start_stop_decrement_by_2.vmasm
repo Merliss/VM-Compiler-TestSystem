@@ -1,0 +1,93 @@
+﻿:0000| 1C15 0000 01 00                   | $VMSYS.MCD START, #01, #00                                                      
+:0006| 1C15 0100 01 00                   | $VMSYS.MCD STOP, #01, #00                                                       
+:000c| 1C15 0200 01 00                   | $VMSYS.MCD ALARM, #01, #00                                                      
+:0012| 1C15 0800 01 00                   | $VMSYS.MCD SILNIK, #01, #00                                                     
+:0018| 1C15 0900 01 00                   | $VMSYS.MCD POMPA, #01, #00                                                      
+:001e| 1C15 0A00 01 01                   | $VMSYS.MCD WYNIK, #01, #01                                                      
+:0024| 1C15 0C00 02 1400                 | $VMSYS.MCD WYNIK2, #02, #1400                                                   
+:002b|                                   | :?START_STOP.Task0001?TSKSTR                                                    
+:002b| 1C16 0000 1501                    | $VMSYS.CALB #0000, :?START_STOP.STARTSTOP?INIT                                  
+:0031|                                   | :?START_STOP.Task0001?TSKLOOP                                                   
+:0031| 1C16 0000 2A01                    | $VMSYS.CALB #0000, :?START_STOP.STARTSTOP?CODE                                  
+:0037| 1C1D 3100                         | $VMSYS.TRML :?START_STOP.Task0001?TSKLOOP                                       
+:003b|                                   | :?START_STOP.TON?INIT                                                           
+:003b| 1C15 0000 04 00000000             | $VMSYS.MCD STIME, #04, #00000000                                                
+:0044| 1C15 0500 01 00                   | $VMSYS.MCD Q, #01, #00                                                          
+:004a| 1C15 0C00 04 00000000             | $VMSYS.MCD ET, #04, #00000000                                                   
+:0053| 1C13                              | $VMSYS.RETURN                                                                   
+:0055|                                   | :?START_STOP.TON?CODE                                                           
+:0055| 0510 0600 0400                    | $DEFAULT.NOT ?IF?CTL, IN                                                        
+:005b| 1C02 0600 7800                    | $VMSYS.JZ ?IF?CTL, :?START_STOP.TONIF?B0000                                     
+:0061| 1C15 0500 01 00                   | $VMSYS.MCD Q, #01, #00                                                          
+:0067| 1C15 0C00 04 00000000             | $VMSYS.MCD ET, #04, #00000000                                                   
+:0070| 1C17 0000                         | $DEFAULT.CUR_TIME STIME                                                         
+:0074| 1C00 AC00                         | $VMSYS.JMP :?START_STOP.TONIF?E0006                                             
+:0078|                                   | :?START_STOP.TONIF?B0000                                                        
+:0078| 0510 0600 0500                    | $DEFAULT.NOT ?IF?CTL, Q                                                         
+:007e| 1C02 0600 AC00                    | $VMSYS.JZ ?IF?CTL, :?START_STOP.TONIF?B0007                                     
+:0084| 1C17 1000                         | $DEFAULT.CUR_TIME ?F?CUR_TIME000A                                               
+:0088| 020B 0C00 1000 0000               | $DEFAULT.SUB ET, ?F?CUR_TIME000A, STIME                                         
+:0090| 110B 0600 0C00 0800               | $DEFAULT.GE ?IF?CTL, ET, PT                                                     
+:0098| 1C02 0600 AC00                    | $VMSYS.JZ ?IF?CTL, :?START_STOP.TONIF?B000C                                     
+:009e| 1C15 0500 01 01                   | $VMSYS.MCD Q, #01, #01                                                          
+:00a4| 1C1F 0C00 0800 0400               | $VMSYS.MEMCP ET, PT, #0400                                                      
+:00ac|                                   | :?START_STOP.TONIF?B000C                                                        
+:00ac|                                   | :?START_STOP.TONIF?B0007                                                        
+:00ac|                                   | :?START_STOP.TONIF?E0006                                                        
+:00ac| 1C13                              | $VMSYS.RETURN                                                                   
+:00ae|                                   | :?START_STOP.TOF?INIT                                                           
+:00ae| 1C15 0000 04 00000000             | $VMSYS.MCD STIME, #04, #00000000                                                
+:00b7| 1C15 0500 01 00                   | $VMSYS.MCD Q, #01, #00                                                          
+:00bd| 1C15 0C00 04 00000000             | $VMSYS.MCD ET, #04, #00000000                                                   
+:00c6| 1C13                              | $VMSYS.RETURN                                                                   
+:00c8|                                   | :?START_STOP.TOF?CODE                                                           
+:00c8| 1C02 0400 E500                    | $VMSYS.JZ IN, :?START_STOP.TOFIF?B0011                                          
+:00ce| 1C15 0500 01 01                   | $VMSYS.MCD Q, #01, #01                                                          
+:00d4| 1C15 0C00 04 00000000             | $VMSYS.MCD ET, #04, #00000000                                                   
+:00dd| 1C17 0000                         | $DEFAULT.CUR_TIME STIME                                                         
+:00e1| 1C00 1301                         | $VMSYS.JMP :?START_STOP.TOFIF?E0016                                             
+:00e5|                                   | :?START_STOP.TOFIF?B0011                                                        
+:00e5| 1C02 0500 1301                    | $VMSYS.JZ Q, :?START_STOP.TOFIF?B0018                                           
+:00eb| 1C17 1000                         | $DEFAULT.CUR_TIME ?F?CUR_TIME001A                                               
+:00ef| 020B 0C00 1000 0000               | $DEFAULT.SUB ET, ?F?CUR_TIME001A, STIME                                         
+:00f7| 110B 0600 0C00 0800               | $DEFAULT.GE ?IF?CTL, ET, PT                                                     
+:00ff| 1C02 0600 1301                    | $VMSYS.JZ ?IF?CTL, :?START_STOP.TOFIF?B001C                                     
+:0105| 1C15 0500 01 00                   | $VMSYS.MCD Q, #01, #00                                                          
+:010b| 1C1F 0C00 0800 0400               | $VMSYS.MEMCP ET, PT, #0400                                                      
+:0113|                                   | :?START_STOP.TOFIF?B001C                                                        
+:0113|                                   | :?START_STOP.TOFIF?B0018                                                        
+:0113|                                   | :?START_STOP.TOFIF?E0016                                                        
+:0113| 1C13                              | $VMSYS.RETURN                                                                   
+:0115|                                   | :?START_STOP.STARTSTOP?INIT                                                     
+:0115| 1C16 2800 AE00                    | $VMSYS.CALB OPOZN_OFF, :?START_STOP.TOF?INIT                                    
+:011b| 1C16 1000 3B00                    | $VMSYS.CALB OPOZN_ON, :?START_STOP.TON?INIT                                     
+:0121| 1C15 0E00 02 0200                 | $VMSYS.MCD ?L?CST0030, #02, #0200                                               
+:0128| 1C13                              | $VMSYS.RETURN                                                                   
+:012a|                                   | :?START_STOP.STARTSTOP?CODE                                                     
+:012a| 0920 0300 0000 0800               | $DEFAULT.OR ?LR?ANDA0024, START, SILNIK                                         
+:0132| 1C02 0300 4E01                    | $VMSYS.JZ ?LR?ANDA0024, :?START_STOP.STARTSTOP?AND0023                          
+:0138| 0510 0400 0100                    | $DEFAULT.NOT ?LR?ANDA0026, STOP                                                 
+:013e| 1C02 0400 4E01                    | $VMSYS.JZ ?LR?ANDA0026, :?START_STOP.STARTSTOP?AND0023                          
+:0144| 1C15 0500 01 01                   | $VMSYS.MCD ?LR?ANDA0022, #01, #01                                               
+:014a| 1C00 5401                         | $VMSYS.JMP :?START_STOP.STARTSTOP?EAND0029                                      
+:014e|                                   | :?START_STOP.STARTSTOP?AND0023                                                  
+:014e| 1C15 0500 01 00                   | $VMSYS.MCD ?LR?ANDA0022, #01, #00                                               
+:0154|                                   | :?START_STOP.STARTSTOP?EAND0029                                                 
+:0154| 1C02 0500 7001                    | $VMSYS.JZ ?LR?ANDA0022, :?START_STOP.STARTSTOP?AND0021                          
+:015a| 0510 0600 0200                    | $DEFAULT.NOT ?LR?ANDA002A, ALARM                                                
+:0160| 1C02 0600 7001                    | $VMSYS.JZ ?LR?ANDA002A, :?START_STOP.STARTSTOP?AND0021                          
+:0166| 1C15 0800 01 01                   | $VMSYS.MCD SILNIK, #01, #01                                                     
+:016c| 1C00 7601                         | $VMSYS.JMP :?START_STOP.STARTSTOP?EAND002D                                      
+:0170|                                   | :?START_STOP.STARTSTOP?AND0021                                                  
+:0170| 1C15 0800 01 00                   | $VMSYS.MCD SILNIK, #01, #00                                                     
+:0176|                                   | :?START_STOP.STARTSTOP?EAND002D                                                 
+:0176| 1C1F 1400 0800 0100               | $VMSYS.MEMCP OPOZN_ON.IN, SILNIK, #0100                                         
+:017e| 1C15 1800 04 88130000             | $VMSYS.MCD OPOZN_ON.PT, #04, #88130000                                          
+:0187| 1C16 1000 5500                    | $VMSYS.CALB OPOZN_ON, :?START_STOP.TON?CODE                                     
+:018d| 1C1F 2C00 1500 0100               | $VMSYS.MEMCP OPOZN_OFF.IN, OPOZN_ON.Q, #0100                                    
+:0195| 1C15 3000 04 88130000             | $VMSYS.MCD OPOZN_OFF.PT, #04, #88130000                                         
+:019e| 1C16 2800 C800                    | $VMSYS.CALB OPOZN_OFF, :?START_STOP.TOF?CODE                                    
+:01a4| 1C1F 0900 2D00 0100               | $VMSYS.MEMCP POMPA, OPOZN_OFF.Q, #0100                                          
+:01ac| 0202 0C00 0C00 0E00               | $DEFAULT.SUB WYNIK2, WYNIK2, ?L?CST0030                                         
+:01b4| 1C13                              | $VMSYS.RETURN                                                                   
+:01b6 

@@ -1,0 +1,123 @@
+(*$LIBRARY START_STOP*)
+                            (* GLOBAL VARIABLES *)
+                VAR_GLOBAL
+                START AT %0000 : BOOL;
+                END_VAR
+
+                VAR_GLOBAL
+                STOP AT %0001 : BOOL;
+                END_VAR
+
+                VAR_GLOBAL
+                ALARM AT %0002 : BOOL;
+				CE  : ARRAY [0..3] OF INT:=(1,3,5,7);
+				ARRAY_BOOL: ARRAY [0..2] OF BOOL:=(TRUE,FALSE,TRUE);
+                END_VAR
+
+                VAR_GLOBAL
+                SILNIK AT %0008 : BOOL;
+                END_VAR
+
+                VAR_GLOBAL
+                POMPA AT %0009 : BOOL;
+                END_VAR
+
+                VAR_GLOBAL
+                WYNIK AT %0010 : BOOL :=TRUE;
+                END_VAR
+
+                VAR_GLOBAL
+                WYNIK2 AT %0012 : INT :=20;
+				V_REAL AT %0013 : REAL :=20.5;
+				V_LREAL AT %0013 : REAL :=25.5;
+                END_VAR
+
+                (* USER POUs *)
+                FUNCTION_BLOCK TON(* TON - Op?nione za??czenie         *)
+                (*$COMMENT Op?nienie w??czenia*)
+                VAR
+                    STIME: TIME;                 (* Czas pocz?tkowy, uaktywnienia IN*)
+                END_VAR
+                VAR_INPUT
+                    IN(*$COMMENT Wej?cie*) : BOOL;(* Wej?cie                          *)
+                    PT(*$COMMENT Czas do odmierzenia*) : TIME;(* Czas do odmierzenia*)
+                END_VAR
+                VAR_OUTPUT
+                    Q(*$COMMENT Wyj?cie*) : BOOL;(* Wyj?cie                           *)
+                    ET(*$COMMENT Odmierzany czas*) : TIME;(* Odmierzany czas            *)
+                END_VAR
+
+                IF NOT IN THEN(* Je?li wej?cie nieaktywne*)
+                    Q := FALSE;                  (* Zeruj wyj?cie                      *)
+                    ET := t#0ms;                 (* Zeruj licznik odmierzanego czasu   *)
+                    STIME := CUR_TIME(); (* Odczytaj zegar systemowy*)
+                ELSE
+                    IF NOT Q THEN(* Dop?ki nie uaktywniono wyj?cia     *)
+                        ET := CUR_TIME() - STIME;(* Czas od uaktywnienia wej?cia       *)
+                        IF ET >= PT THEN(* Je?li up?yn?? zadany czas          *)
+                            Q := TRUE;           (* Uaktywnij wyj?cie                  *)
+                            ET := PT;            (* Zadany czas op?nienia*)
+                        END_IF
+                    END_IF
+                END_IF
+                END_FUNCTION_BLOCK
+
+                FUNCTION_BLOCK TOF(* TOF - Op?nione za??czenie         *)
+                (*$COMMENT Op?nienie wy??czenia*)
+                VAR
+                    STIME: TIME;                 (* Czas pocz?tkowy, uaktywnienia IN*)
+                END_VAR
+                VAR_INPUT
+                    IN(*$COMMENT Wej?cie*) : BOOL;(* Wej?cie                            *)
+                    PT(*$COMMENT Czas do odmierzenia*) : TIME;(* Czas do odmierzenia*)
+                END_VAR
+                VAR_OUTPUT
+                    Q(*$COMMENT Wyj?cie*) : BOOL; (* Wyj?cie                            *)
+                    ET(*$COMMENT Odmierzany czas*) : TIME;(* Odmierzany czas            *)
+                END_VAR
+
+                IF IN THEN(* Je?li wej?cie aktywne*)
+                    Q := TRUE;                   (* Uaktywnij wyj?cie                  *)
+                    ET := t#0ms;                 (* Zeruj licznik odmierzanego czasu   *)
+                    STIME := CUR_TIME(); (* Odczytaj zegar systemowy*)
+                ELSE
+                    IF Q THEN(* Dop?ki aktywne wyj?cie*)
+                        ET := CUR_TIME() - STIME;(* Odmierzaj zadany czas*)
+                        IF ET >= PT THEN(* Je?li up?yn?? zadany czas          *)
+                            Q := FALSE;          (* Zeruj wyj?cie                      *)
+                            ET := PT;            (* Pami?taj zadany czas op?nienia    *)
+                        END_IF
+                    END_IF
+                END_IF
+                END_FUNCTION_BLOCK
+
+                PROGRAM STARTSTOP
+                VAR
+                    OPOZN_ON : TON;                   (* Instancja bloku TON*)
+                    OPOZN_OFF: TOF;                   (* Instancja bloku TOF*)
+                END_VAR
+
+                VAR_EXTERNAL
+                    START : BOOL(*$READ*);
+                        STOP : BOOL(*$READ*);
+                        ALARM : BOOL(*$READ*);
+                        SILNIK : BOOL;
+                        WYNIK2 : INT;
+                    POMPA : BOOL(*$WRITE*);
+                        END_VAR
+
+                        SILNIK := (START OR SILNIK) AND NOT STOP AND NOT ALARM;
+
+                        OPOZN_ON(IN:=SILNIK, PT:=t#5s);       (* Blok TON - op?nione za??czenie *)
+                OPOZN_OFF(IN:= OPOZN_ON.Q, PT:=t#5s); (* Blok TOF - op?nione wy??czenie *)
+                POMPA := OPOZN_OFF.Q; (* Stan za??czenia pompy*)
+                WYNIK2 := WYNIK2 - 2;
+                END_PROGRAM
+
+                (*$TASKS
+                .TASK Task0001
+                .LOOPPARAM 0 200
+                STARTSTOP
+                .END_TASK
+                *)
+                (*$END_LIBRARY*)
