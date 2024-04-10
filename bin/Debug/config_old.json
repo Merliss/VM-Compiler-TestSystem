@@ -1,0 +1,23 @@
+
+{
+	"PathToTests": "D:/Studia/MGR/Praca Magisterska/kompilator_repo/stcomp05/CompileAndRunTests/files/",
+	
+
+		"IncrementTestsJson":[
+		{
+			"Filename": "start_stop_decrement_by_2",
+			"ExpectedValue" : 50,
+			"Address": "WYNIK2"
+		},
+		{
+			"Filename": "start_stop",
+			"ExpectedValue" : 59,
+			"Address": "WYNIK2"
+		},
+		{
+			"Filename": "start_stop_two",
+			"ExpectedValue" : 79,
+			"Address": "WYNIK2"
+		}
+	]
+}

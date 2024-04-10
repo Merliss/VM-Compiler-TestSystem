@@ -1,0 +1,132 @@
+{
+	"PathToTests": "%CPDevTestsPath%",
+	"GroupOfTestsJson": {
+		"IncrementTests": [
+			{
+				"Filename": "start_stop_decrement_by_2",
+				"AssertObjects":[
+								{"Type":"isEqual", "Variable": "WYNIK2", "Expected": 78, "Cycles": 8},
+								{"Type":"isEqual", "Variable": "WYNIK2", "Expected": 18, "Cycles": 1},
+								{"Type":"isEqual", "Variable": "WYNIK2", "Expected": 88, "Cycles": 5}
+								],
+				"CompObj":{
+					"CF_Flags":"2531",
+					"SF_Flags":"B0",
+					"LOF_Flags":"1",
+					"OPT_Flags":"5",
+					"VMSpec":"VM-Gen",
+					"DCP_OUT_Flags":"C"
+				}
+			},
+			{
+				"Filename": "start_stop",
+				"AssertObjects":[
+								{"Type":"isEqual", "Variable": "WYNIK2", "Expected": 78, "Cycles": 1},
+								{"Type":"isEqual", "Variable": "WYNIK2", "Expected": 88, "Cycles": 1},
+								{"Type":"isEqual", "Variable": "WYNIK3", "Expected": 256745.254, "Delta":0.5, "Cycles": 1}
+								],
+				"CompObj":{
+					"CF_Flags":"2531",
+					"SF_Flags":"B0",
+					"LOF_Flags":"1",
+					"OPT_Flags":"5",
+					"VMSpec":"VM-Gen",
+					"DCP_OUT_Flags":"C"
+					
+				}
+			},
+			{
+				"Filename": "start_stop_two",
+				"AssertObjects":[
+								{"Type":"isEqual", "Variable": "WYNIK2", "Expected": 78, "Cycles": 1},
+								{"Type":"isEqual", "Variable": "WYNIK2", "Expected": 88, "Cycles": 1}
+								],
+				"CompObj":{
+					"CF_Flags":"2531",
+					"SF_Flags":"B0",
+					"LOF_Flags":"1",
+					"OPT_Flags":"5",
+					"VMSpec":"VM-Gen",
+					"DCP_OUT_Flags":"C"
+				}
+			},
+			{
+				"Filename": "array_test",
+				"AssertObjects":[
+								{"Type":"isEqual", "Variable": "CE[1]", "Expected": 3, "Cycles": 1},
+								{"Type":"isTrue", "Variable": "ARRAY_BOOL[1]"}
+								],
+				"CompObj":{
+					"CF_Flags":"2531",
+					"SF_Flags":"B0",
+					"LOF_Flags":"1",
+					"OPT_Flags":"5",
+					"VMSpec":"VM-Gen",
+					"DCP_OUT_Flags":"C"
+				}
+			},
+			{
+				"Filename": "float_test",
+				"AssertObjects":[
+								{"Type":"isEqual", "Variable": "V_REAL", "Expected": 78.0,   "Delta": 0.05, "Cycles": 1},
+								{"Type":"isEqual", "Variable": "V_LREAL","Expected": 25.5, "Delta": 0.05, "Cycles": 1}
+								],
+				"CompObj":{
+					"CF_Flags":"2531",
+					"SF_Flags":"B0",
+					"LOF_Flags":"1",
+					"OPT_Flags":"5",
+					"VMSpec":"VM-Gen",
+					"DCP_OUT_Flags":"C"
+				}
+			}
+		],
+		"DecrementTests": [
+			{
+				"Filename": "start_stop_decrement_by_2",
+				"AssertObjects":[
+								{"Type":"isEqual", "Variable": "WYNIK2", "Expected": 78, "Cycles": 1},
+								{"Type":"isEqual", "Variable": "WYNIK2", "Expected": 88, "Cycles": 1}
+								],
+				"CompObj":{
+					"CF_Flags":"2531",
+					"SF_Flags":"B0",
+					"LOF_Flags":"1",
+					"OPT_Flags":"5",
+					"VMSpec":"VM-Gen",
+					"DCP_OUT_Flags":"C"
+				}
+			},
+			{
+				"Filename": "start_stop",
+				"AssertObjects":[
+								{"Type":"isEqual", "Variable": "WYNIK2", "Expected": 78, "Cycles": 1},
+								{"Type":"isEqual", "Variable": "WYNIK2", "Expected": 88, "Cycles": 1}
+								],
+				"CompObj":{
+					"CF_Flags":"2531",
+					"SF_Flags":"B0",
+					"LOF_Flags":"1",
+					"OPT_Flags":"5",
+					"VMSpec":"VM-Gen",
+					"DCP_OUT_Flags":"C"
+				}
+			},
+			{
+				"Filename": "start_stop_two",
+				"AssertObjects":[
+								{"Type":"isEqual", "Variable": "WYNIK2", "Expected": 78, "Cycles": 1},
+								{"Type":"isEqual", "Variable": "WYNIK2", "Expected": 88, "Cycles": 1}
+								],
+				"CompObj":{
+					"CF_Flags":"2531",
+					"SF_Flags":"B0",
+					"LOF_Flags":"1",
+					"OPT_Flags":"5",
+					"VMSpec":"VM-Gen",
+					"DCP_OUT_Flags":"C"
+				}
+			}
+		]
+	}
+}
